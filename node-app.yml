@@ -1,0 +1,33 @@
+---
+- name: Deploy Node App
+  hosts: server1
+  become: true
+
+  tasks:
+  - name: Update API Packages
+    apt:
+      update_cache: yes
+
+  - name: Install Require Packages
+    apt:
+      update_cache: yes
+
+  - name: Install Req Packages
+    apt:
+      name:
+        - nodejs
+        - npm
+        - git
+
+  - name: Clone Repository
+    git:
+      repo: "https://github.com/dhruvb-io/Node-Docker-App"
+      dest: /opt/my-node-app
+
+  - name: Install Dependencies
+    npm:
+      path: /opt/my-node-app
+      production: yes
+
+  - name: Start App
+    shell: "nohup node /opt/my-node-app/index.js &"
